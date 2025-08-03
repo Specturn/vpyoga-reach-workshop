@@ -6,6 +6,7 @@ import SubmissionReceived from './pages/SubmissionReceived';
 import CheckStatus from './pages/CheckStatus';
 import TicketVerification from './pages/TicketVerification';
 import AdminPanel from './pages/AdminPanel';
+import AssetDebugger from './components/AssetDebugger';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/verify-ticket/:verificationCode" element={<TicketVerification />} />
           <Route path="/admin" element={<AdminPanel />} />
         </Routes>
+        <AssetDebugger />
       </Router>
     </AuthProvider>
   );

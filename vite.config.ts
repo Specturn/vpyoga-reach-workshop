@@ -12,4 +12,15 @@ export default defineConfig({
     port: 5173, // Default Vite port
     strictPort: false, // Allow port fallback if 5173 is busy
   },
+  build: {
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name].[hash][extname]',
+        chunkFileNames: 'assets/[name].[hash].js',
+        entryFileNames: 'assets/[name].[hash].js',
+      },
+    },
+  },
+  publicDir: 'public',
 });

@@ -8,6 +8,8 @@ import { useForm, ValidationError } from '@formspree/react';
 import { useAuth } from '../contexts/AuthContext';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
+import { ASSETS } from '../utils/assets';
+import ImageWithFallback from './ImageWithFallback';
 
 const RegistrationForm: React.FC = () => {
   const navigate = useNavigate();
@@ -276,25 +278,12 @@ const RegistrationForm: React.FC = () => {
                 Scan the QR code with any UPI app to pay the registration fee.
               </p>
               <div className="bg-white p-4 rounded-lg inline-block shadow-md">
-                <img 
-                  src="/assets/images/UPI-QR.jpeg" 
+                <ImageWithFallback
+                  src={ASSETS.UPI_QR_CODE} 
                   alt="UPI QR Code for Payment"
                   className="w-48 h-48 object-contain rounded-lg"
-                  onError={(e) => {
-                    const img = e.currentTarget;
-                    img.style.display = 'none';
-                    const fallback = img.nextElementSibling as HTMLElement;
-                    if (fallback) {
-                      fallback.style.display = 'flex';
-                    }
-                  }}
+                  fallbackText="UPI QR Code"
                 />
-                <div className="w-48 h-48 bg-gray-200 rounded-lg flex items-center justify-center hidden">
-                  <p className="text-gray-500 text-center">
-                    UPI QR Code<br />
-                    (QR code image loaded successfully!)
-                  </p>
-                </div>
               </div>
             </div>
           </div>

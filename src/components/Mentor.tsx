@@ -1,5 +1,7 @@
 import React from 'react';
 import { Award, BookOpen, Users } from 'lucide-react';
+import { ASSETS } from '../utils/assets';
+import ImageWithFallback from './ImageWithFallback';
 
 const Mentor: React.FC = () => {
   return (
@@ -11,18 +13,11 @@ const Mentor: React.FC = () => {
         
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="lg:w-1/2">
-            <img 
-              src="/assets/images/image.png"
+            <ImageWithFallback
+              src={ASSETS.DR_VENKATESH_IMAGE}
               alt="Dr. Venkatesh T - Workshop Mentor"
               className="w-full rounded-lg shadow-xl object-cover"
-              onError={(e) => {
-                const img = e.currentTarget;
-                img.style.display = 'none';
-                const fallback = document.createElement('div');
-                fallback.className = 'w-full h-64 bg-gray-200 rounded-lg shadow-xl flex items-center justify-center';
-                fallback.innerHTML = '<p class="text-gray-500">Dr. Venkatesh T Photo</p>';
-                img.parentNode?.appendChild(fallback);
-              }}
+              fallbackText="Dr. Venkatesh T Photo"
             />
           </div>
           
