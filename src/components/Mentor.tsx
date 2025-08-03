@@ -1,6 +1,6 @@
 import React from 'react';
 import { Award, BookOpen, Users } from 'lucide-react';
-import drVenkateshImage from '/assets/images/image.png';
+import drVenkateshImage from '../assets/images/image.png';
 
 const Mentor: React.FC = () => {
   return (

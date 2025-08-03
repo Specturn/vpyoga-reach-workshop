@@ -8,7 +8,7 @@ import { useForm, ValidationError } from '@formspree/react';
 import { useAuth } from '../contexts/AuthContext';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
-import upiQrCode from '/assets/images/UPI-QR.jpeg';
+import upiQrCode from '../assets/images/UPI-QR.jpeg';
 
 const RegistrationForm: React.FC = () => {
   const navigate = useNavigate();
