@@ -12,7 +12,7 @@ const Mentor: React.FC = () => {
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="lg:w-1/2">
             <img 
-              src="/src/assets/images/image.png"
+              src="/assets/images/image.png"
               alt="Dr. Venkatesh T - Workshop Mentor"
               className="w-full rounded-lg shadow-xl object-cover"
               onError={(e) => {

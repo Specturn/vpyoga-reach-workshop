@@ -277,7 +277,7 @@ const RegistrationForm: React.FC = () => {
               </p>
               <div className="bg-white p-4 rounded-lg inline-block shadow-md">
                 <img 
-                  src="/src/assets/images/UPI-QR.jpeg" 
+                  src="/assets/images/UPI-QR.jpeg" 
                   alt="UPI QR Code for Payment"
                   className="w-48 h-48 object-contain rounded-lg"
                   onError={(e) => {

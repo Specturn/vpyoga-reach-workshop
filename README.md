@@ -1,1 +1,0 @@
-# vpyoga-reach-workshop

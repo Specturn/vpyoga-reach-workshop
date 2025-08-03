@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { User, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut, signInWithRedirect } from 'firebase/auth';
 import { auth } from '../config/firebase';
 
 interface AuthContextType {
@@ -35,7 +35,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      // Add custom parameters to handle popup issues
+      provider.setCustomParameters({
+        prompt: 'select_account'
+      });
+      
+      // Try popup first, fallback to redirect if popup fails
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (popupError: any) {
+        console.log('Popup failed, trying redirect:', popupError.code);
+        if (popupError.code === 'auth/popup-closed-by-user' || 
+            popupError.code === 'auth/popup-blocked' ||
+            popupError.code === 'auth/cancelled-popup-request') {
+          // Fallback to redirect method
+          await signInWithRedirect(auth, provider);
+        } else {
+          throw popupError;
+        }
+      }
     } catch (error) {
       console.error('Error signing in with Google:', error);
       throw error;
