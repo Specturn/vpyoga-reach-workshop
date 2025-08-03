@@ -1,16 +1,18 @@
-// Utility function to handle asset paths properly
-export const getAssetPath = (path: string): string => {
-  // In development, use the path as is
-  if (import.meta.env.DEV) {
-    return path;
-  }
-  
-  // In production, ensure the path starts with /
-  return path.startsWith('/') ? path : `/${path}`;
-};
-
-// Specific asset paths
+// Simple asset paths - direct approach
 export const ASSETS = {
-  DR_VENKATESH_IMAGE: getAssetPath('/assets/images/image.png'),
-  UPI_QR_CODE: getAssetPath('/assets/images/UPI-QR.jpeg'),
-} as const; 
+  DR_VENKATESH_IMAGE: '/assets/images/image.png',
+  UPI_QR_CODE: '/assets/images/UPI-QR.jpeg',
+} as const;
+
+// Debug function to log all asset paths
+export const debugAssets = () => {
+  console.log('🔍 Asset Debug Information:');
+  console.log('Environment:', import.meta.env.MODE);
+  console.log('Base URL:', import.meta.env.BASE_URL);
+  console.log('Assets:', ASSETS);
+  
+  // Test if assets are accessible
+  Object.entries(ASSETS).forEach(([name, path]) => {
+    console.log(`${name}: ${path}`);
+  });
+}; 
