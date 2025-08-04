@@ -13,7 +13,7 @@ const AdminPanel: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const adminEmails = ['itsme.ankit2006@gmail.com', 'specturnmedia@gmail.com'];
+  const adminEmails = ['itsme.ankit2006@gmail.com', 'specturnmedia@gmail.com', 'admin@specturn.in'];
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
