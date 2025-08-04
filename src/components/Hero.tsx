@@ -31,16 +31,16 @@ const Hero: React.FC = () => {
           August 9th & 10th, 2025
         </p>
         
+        <div className="mb-2 flex justify-center animate-bounce">
+          <ChevronDown size={48} className="text-yellow-400" />
+        </div>
+        
         <button
           onClick={scrollToRegistration}
           className="bg-yellow-500 hover:bg-yellow-400 text-black font-black py-4 px-12 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-2xl"
         >
           REGISTER NOW
         </button>
-        
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ChevronDown size={48} className="text-yellow-400" />
-        </div>
       </div>
     </section>
   );

@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Download, Clock, AlertCircle } from 'lucide-react';
 import { ref, query, orderByChild, equalTo, get } from 'firebase/database';
 import { database } from '../config/firebase';
 import { Registration } from '../types/registration';
 import { generateTicketPDF } from '../utils/pdfGenerator';
+import { useAuth } from '../contexts/AuthContext';
 
 const CheckStatus: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const { user, loading: authLoading } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'confirmed' | 'pending' | 'not-found'>('idle');
   const [registration, setRegistration] = useState<Registration | null>(null);
 
-  const checkStatus = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Auto-check status when user is loaded
+  useEffect(() => {
+    if (user && !authLoading) {
+      checkStatus();
+    }
+  }, [user, authLoading]);
+
+  const checkStatus = async () => {
+    if (!user?.email) {
+      setStatus('not-found');
+      return;
+    }
+
     setIsLoading(true);
     setStatus('idle');
     setRegistration(null);
@@ -28,8 +40,8 @@ const CheckStatus: React.FC = () => {
           ...data[key]
         }));
         
-        // Search for registration by email (case-insensitive)
-        const searchEmail = email.toLowerCase();
+        // Search for registration by user's email (case-insensitive)
+        const searchEmail = user.email.toLowerCase();
         const foundRegistration = registrations.find(reg => {
           const regEmail = (reg.email || '').toLowerCase();
           const regUserEmail = (reg.userEmail || '').toLowerCase();
@@ -75,6 +87,41 @@ const CheckStatus: React.FC = () => {
     }
   };
 
+  // Show loading while auth is loading
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center px-4">
+        <div className="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-lg">Loading your registration status...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show sign-in prompt if not authenticated
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center px-4">
+        <div className="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full text-center">
+          <div className="text-red-600 mb-4">
+            <AlertCircle size={48} className="mx-auto" />
+          </div>
+          <h2 className="text-2xl font-bold text-red-800 mb-2">Sign In Required</h2>
+          <p className="text-red-700 mb-6">
+            Please sign in with your Google account to check your registration status.
+          </p>
+          <a
+            href="/"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors inline-flex items-center mx-auto"
+          >
+            ← Back to Workshop
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center px-4">
       <div className="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full">
@@ -83,41 +130,21 @@ const CheckStatus: React.FC = () => {
             CHECK REGISTRATION STATUS
           </h1>
           <p className="text-lg text-gray-600 mb-4">
-            Enter your email address to check your workshop registration status
+            Checking status for: <strong>{user.email}</strong>
           </p>
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md mx-auto">
             <p className="text-sm text-blue-800">
-              <strong>Tip:</strong> Use the same email address you used when signing in with Google to register.
+              <strong>Signed in as:</strong> {user.email}
             </p>
           </div>
         </div>
 
-        <form onSubmit={checkStatus} className="mb-8">
-          <div className="flex flex-col md:flex-row gap-4">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email address"
-              required
-              className="flex-1 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-            />
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-            >
-              {isLoading ? (
-                'Checking...'
-              ) : (
-                <>
-                  <Search className="mr-2" size={20} />
-                  Check Status
-                </>
-              )}
-            </button>
+        {isLoading && (
+          <div className="text-center mb-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <p className="text-lg">Checking your registration status...</p>
           </div>
-        </form>
+        )}
         
         {/* Status Results */}
         {status === 'confirmed' && registration && (
@@ -168,26 +195,24 @@ const CheckStatus: React.FC = () => {
           </div>
         )}
 
-        {status === 'not-found' && (
+        {status === 'not-found' && !isLoading && (
           <div className="bg-red-100 border border-red-400 rounded-lg p-6 text-center">
             <div className="text-red-600 mb-4">
               <AlertCircle size={48} className="mx-auto" />
             </div>
             <h2 className="text-2xl font-bold text-red-800 mb-2">Registration Not Found</h2>
             <p className="text-red-700 mb-4">
-              We could not find a registration with that email address. 
-              Please check for typos or contact us for help.
+              We could not find a registration with your email address: <strong>{user.email}</strong>
             </p>
             <div className="text-sm text-red-600">
-              <p><strong>Tips:</strong></p>
+              <p><strong>Possible reasons:</strong></p>
               <ul className="text-left max-w-md mx-auto">
-                <li>• Make sure you're using the same email you registered with</li>
-                <li>• Check for any typos in your email address</li>
-                <li>• If you signed in with Google, use that email address</li>
-                <li>• Contact us if you're still having trouble</li>
+                <li>• You haven't registered for the workshop yet</li>
+                <li>• You registered with a different email address</li>
+                <li>• There was an issue with your registration</li>
+                <li>• Contact us if you believe this is an error</li>
               </ul>
             </div>
-
           </div>
         )}
 

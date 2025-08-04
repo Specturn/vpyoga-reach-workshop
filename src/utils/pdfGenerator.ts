@@ -42,8 +42,7 @@ export const generateTicketPDF = async (registration: Registration) => {
   }
   
   // Add security watermark
-  doc.setTextColor(200, 200, 200);
-  
+  doc.setTextColor(220, 220, 220); // Much lighter gray for subtle watermark
   doc.setFontSize(35);
   doc.text('REACH : THE BEST VERSION OF YOU', pageWidth * 2/3, pageHeight * 2/3, { angle: 45, align: 'center' });
   
@@ -91,10 +90,12 @@ export const generateTicketPDF = async (registration: Registration) => {
   // Ticket details
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
+  doc.setTextColor(0, 0, 0); // Black for headers
   doc.text('Participant Details:', 20, 70);
   
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
+  doc.setTextColor(64, 64, 64); // Dark gray for content
   doc.text(`Name: ${registration.fullName}`, 20, 85);
   doc.text(`Email: ${registration.email}`, 20, 95);
   doc.text(`Phone: ${registration.phone}`, 20, 105);
@@ -103,9 +104,11 @@ export const generateTicketPDF = async (registration: Registration) => {
   
   // Workshop details
   doc.setFont('helvetica', 'bold');
+  doc.setTextColor(0, 0, 0); // Black for headers
   doc.text('Workshop Details:', 20, 150);
   
   doc.setFont('helvetica', 'normal');
+  doc.setTextColor(64, 64, 64); // Dark gray for content
   doc.text('Event: REACH - The Best Version of You', 20, 165);
   doc.text('Dates: August 9th & 10th, 2025', 20, 175);
   doc.text('Venue: Fireflies Intercultural Center', 20, 185);
@@ -113,18 +116,22 @@ export const generateTicketPDF = async (registration: Registration) => {
   
   // Payment verification
   doc.setFont('helvetica', 'bold');
+  doc.setTextColor(0, 0, 0); // Black for headers
   doc.text('Payment Verification:', 20, 220);
   
   doc.setFont('helvetica', 'normal');
+  doc.setTextColor(64, 64, 64); // Dark gray for content
   doc.text(`Transaction ID: ${registration.transactionId}`, 20, 235);
   doc.text(`Payment Status: ${registration.paymentConfirmed ? 'CONFIRMED' : 'PENDING'}`, 20, 245);
   doc.text(`Registration ID: ${registration.id}`, 20, 255);
   
-  // Security features
+  // Security features - using same dark red color as security notice
   doc.setFont('helvetica', 'bold');
+  doc.setTextColor(128, 0, 0); // Dark red for security features
   doc.text('Security Features:', 20, 280);
   
   doc.setFont('helvetica', 'normal');
+  doc.setTextColor(128, 0, 0); // Dark red for security content
   doc.text(`Verification Code: ${verificationCode}`, 20, 295);
   doc.text(`Generated: ${new Date(registration.timestamp).toLocaleString()}`, 20, 305);
   doc.text(`Verify Online: ${window.location.origin}/verify-ticket/${verificationCode}`, 20, 315);
