@@ -1,6 +1,7 @@
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
 import { Registration } from '../types/registration';
+import logoImage from '../assets/images/logo.png';
 
 // Generate a unique verification code
 const generateVerificationCode = (registration: Registration): string => {
@@ -42,21 +43,50 @@ export const generateTicketPDF = async (registration: Registration) => {
   
   // Add security watermark
   doc.setTextColor(200, 200, 200);
-  doc.setFontSize(60);
-  doc.text('ORIGINAL', pageWidth / 2, pageHeight / 2, { angle: 45, align: 'center' });
+  
+  doc.setFontSize(35);
+  doc.text('REACH : THE BEST VERSION OF YOU', pageWidth * 2/3, pageHeight * 2/3, { angle: 45, align: 'center' });
   
   // Reset text color for content
   doc.setTextColor(0, 0, 0);
   
-  // Header
-  doc.setFontSize(24);
-  doc.setFont('helvetica', 'bold');
-  doc.text('REACH WORKSHOP TICKET', pageWidth / 2, 30, { align: 'center' });
+  // Header with logo - centered at top
+  // Calculate center position
+  const logoSize = 25;
+  const textWidth = 120; // Approximate width of text
+  const totalWidth = logoSize + 10 + textWidth;
+  const startX = (pageWidth - totalWidth) / 2;
   
-  // Security notice
-  doc.setFontSize(8);
+  // Add logo
+  const logoX = startX;
+  const logoY = 20; // Moved down slightly
+  doc.addImage(logoImage, 'PNG', logoX, logoY, logoSize, logoSize);
+  
+  // Text positioned to the right of logo
+  doc.setFontSize(20);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(0, 128, 128); // Teal color for main text
+  doc.text('Vishwa Poornima\'s', logoX + logoSize + 10, 30, { align: 'left' });
+  
+  // Separator line - closer to text
+  doc.setDrawColor(64, 64, 64); // Dark gray color
+  doc.line(logoX + logoSize + 10, 33, logoX + logoSize + 10 + 60, 33);
+  
+  // Tagline - smaller and closer
+  doc.setFontSize(12);
   doc.setFont('helvetica', 'normal');
-  doc.text('This is an official ticket. Any alterations will invalidate this ticket.', pageWidth / 2, 45, { align: 'center' });
+  doc.setTextColor(64, 64, 64); // Dark gray color
+  doc.text('Yoga Centre for Complete Health', logoX + logoSize + 10, 38, { align: 'left' });
+  
+  // Reset colors for rest of content
+  doc.setTextColor(0, 0, 0);
+  doc.setDrawColor(0, 0, 0);
+  
+  // Security notice - improved styling and spacing
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(128, 0, 0); // Dark red color for emphasis
+  doc.text('This is an official ticket. Any alterations will invalidate this ticket.', pageWidth / 2, 55, { align: 'center' });
   
   // Ticket details
   doc.setFontSize(12);
