@@ -8,6 +8,7 @@ import SpecialOffers from '../components/SpecialOffers';
 import VenueMap from '../components/VenueMap';
 import RegistrationForm from '../components/RegistrationForm';
 import Contact from '../components/Contact';
+import SpecturnBranding from '../components/SpecturnBranding';
 
 const WorkshopPage: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const WorkshopPage: React.FC = () => {
       <VenueMap />
       <RegistrationForm />
       <Contact />
+      <SpecturnBranding />
     </div>
   );
 };

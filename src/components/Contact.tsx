@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, MessageCircle, Send } from 'lucide-react';
+import { Phone, Mail, MessageCircle, Send, ExternalLink } from 'lucide-react';
 import { useForm, ValidationError } from '@formspree/react';
 
 const Contact: React.FC = () => {
