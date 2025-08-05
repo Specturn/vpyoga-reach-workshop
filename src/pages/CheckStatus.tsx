@@ -179,7 +179,7 @@ const CheckStatus: React.FC = () => {
             <div className="text-yellow-600 mb-4">
               <Clock size={48} className="mx-auto" />
             </div>
-            <h2 className="text-2xl font-bold text-yellow-800 mb-2">Payment Pending</h2>
+            <h2 className="text-2xl font-bold text-yellow-800 mb-2">Payment Veryfication in Process</h2>
             <p className="text-yellow-700 mb-4">
               Your registration is pending. Our team is still verifying your payment. 
               Please check back later or contact us if you have questions.
