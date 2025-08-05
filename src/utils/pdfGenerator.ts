@@ -154,7 +154,7 @@ export const generateTicketPDF = async (registration: Registration) => {
   // Footer text - positioned at the very bottom after QR code
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
-  doc.text('For verification, scan QR code or visit the verification URL above.', pageWidth / 2, pageHeight - 25, { align: 'center' });
+  doc.text('For verification, scan QR code.', pageWidth / 2, pageHeight - 25, { align: 'center' });
   doc.text('This ticket is valid only for the registered participant.', pageWidth / 2, pageHeight - 20, { align: 'center' });
   
   // Save the PDF
