@@ -274,7 +274,7 @@ const RegistrationForm: React.FC = () => {
             <div className="bg-gray-100 p-6 rounded-lg text-center">
               <CreditCard className="mx-auto mb-4 text-red-500" size={64} />
               <p className="text-lg text-gray-700 mb-4">
-                Scan the QR code with any UPI app to pay the registration fee.
+                Scan the QR code with any UPI app to pay the registration fee of <strong><u>Rs. 20,000.00</u></strong>.
               </p>
               <div className="bg-white p-4 rounded-lg inline-block shadow-md">
                 <img 
