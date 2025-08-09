@@ -28,7 +28,7 @@ const Hero: React.FC = () => {
           2-Day Residential Transformational Workshop
         </h2>
         <p className="text-xl md:text-2xl font-semibold mb-8">
-          August 9th & 10th, 2025
+          September 13th & 14th, 2025
         </p>
         
         <div className="mb-2 flex justify-center animate-bounce">
